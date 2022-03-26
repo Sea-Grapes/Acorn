@@ -1,10 +1,11 @@
+#include "h/AcornProgram.h"
+
 
 #include <iostream>
 
 using namespace std;
-//using std::vector;
+using namespace Acorn;
 
-//#include <string>
 #include <vector>
 
 string VERSION = "1.0.0";
@@ -20,6 +21,7 @@ struct Cmd {
 
 void throwError(string err) {
   cout << "Error: " << err << endl;
+  //cout << "use command 'sqrl -h' or 'sqrl -help' for more information" << endl;
 }
 
 Cmd parseCmd(int argc, char* argv[]) {
@@ -86,6 +88,15 @@ int main(int argc, char* argv[])
     cout << "Acorn v" << VERSION << endl;
     return 0;
   }
+
+  if (cmd.files.empty()) {
+    throwError("no file specified");
+    cout << "use command 'sqrl -h' or 'sqrl -help' for more information" << endl;
+    return 0;
+  }
+
+  AcornProgram program;
+  program.resolveProgram(cmd.files[0]);
 
   //cout << argc << " arguments:" << endl;
   //for (int i = 0; i < argc; i++) {
